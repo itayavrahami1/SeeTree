@@ -17,10 +17,11 @@ def get_polygon_by_name(polygon_name):
     polygon_name = polygon_name
 
     def _compare_polygon_name(polygon):
-        print(polygon_name)
-        return polygon_name == polygon.properties.index
+        return polygon_name == polygon['properties']['index']
 
-    polygon = filter(_compare_polygon_name,polygon_data)
+    polygon = list(filter(_compare_polygon_name,polygon_data))[0]
+    polygon = Polygon(polygon['geometry']['coordinates'],polygon['properties'])
+    return polygon
 
 
 
@@ -42,11 +43,12 @@ def get_polygon(image_name):
 
 class Polygon:
 
-    def __init__(self,coordinates = {} ,properties = {}):
+    def __init__(self,coordinates,properties):
         self.coordinates = coordinates
         self.properties = properties
 
     def __str__(self):
-        return self.properties
+        return self.properties['index']
+
 
 

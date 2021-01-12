@@ -6,10 +6,10 @@ from Scripts.Service.polygon import Polygon
 if __name__ == "__main__":
 
     polygon_service.query("polygons_metadata.geojson")
-    image_service.query("Images_metadata_1.csv")
+    image_service.query()
 
-    poly_props = polygon_service.get_polygon('1_DSC08110.JPG')
+    # poly_props = polygon_service.get_polygon('1_DSC08110.JPG')
 
-    # image_service.get_images("1/401")
+    print(image_service.get_images("1/309"))
 
 
