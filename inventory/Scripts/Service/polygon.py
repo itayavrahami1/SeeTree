@@ -13,7 +13,13 @@ def query(file_name):
     polygon_data.close()
     polygon_data = data['features']
 
+    return polygon_data
+
 def get_polygon_by_name(polygon_name):
+    """
+    :param polygon_name - the index of the polygon
+    :return: polygon full data
+    """
     polygon_name = polygon_name
 
     def _compare_polygon_name(polygon):
@@ -26,6 +32,10 @@ def get_polygon_by_name(polygon_name):
 
 
 def get_polygon(image_name):
+    """
+    :param image_name:
+    :return: the properties of the polygon contains the image.
+    """
     # getting Image object by name and then extract coords
     img = image_service.get_image_by_name(image_name)
     coords = Point(img.longitude[0], img.latitude[0])
@@ -35,11 +45,25 @@ def get_polygon(image_name):
         polygon_coords = polygon_data[i]['geometry']['coordinates'][0]
 
         poly = ShapelyPoly(polygon_coords)
-        # poly = ShapelyPoly(polygon_coords)
-
         if coords.within(poly):
-            print('IN', i)
             return polygon_data[i]['properties']
+
+def get_all_polygon(image_data):
+    polygons_idx = []
+
+
+    for curr_polygon in polygon_data:
+        poly = ShapelyPoly(curr_polygon['geometry']['coordinates'][0])
+
+        for i in range(len(image_data)):
+            image = image_data.iloc[i]
+            point = Point(image['longitude'], image['latitude'])
+
+            if point.within(poly):
+                polygons_idx.append(curr_polygon['properties']['index'])
+                break
+
+    return polygons_idx
 
 
 

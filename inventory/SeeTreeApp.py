@@ -4,12 +4,18 @@ from Scripts.Service.image import Image
 from Scripts.Service.polygon import Polygon
 
 if __name__ == "__main__":
+    polygon_data = polygon_service.query("polygons_metadata.geojson")
+    image_data = image_service.query()
 
-    polygon_service.query("polygons_metadata.geojson")
-    image_service.query()
+    polygon_idx = "1/304"
+    image_name = '1_DSC02477.JPG'
 
-    # poly_props = polygon_service.get_polygon('1_DSC08110.JPG')
+    poly_props = polygon_service.get_polygon(image_name)
+    print(f'The image - "{image_name}" is in polygon: ', poly_props)
+    images = image_service.get_images(polygon_idx)
+    print(f'Polygon {polygon_idx} contains {len(images)} images: \n ', images)
 
-    print(image_service.get_images("1/304"))
+    polygons = polygon_service.get_all_polygon(image_data)
+    print(polygons, len(polygons))
 
 
