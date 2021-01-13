@@ -33,7 +33,9 @@ def get_polygon(image_name):
     for i in range(len(polygon_data)):
         # extracting polygon coords from json
         polygon_coords = polygon_data[i]['geometry']['coordinates'][0]
+
         poly = ShapelyPoly(polygon_coords)
+        # poly = ShapelyPoly(polygon_coords)
 
         if coords.within(poly):
             print('IN', i)

@@ -1,4 +1,7 @@
 import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import  matplotlib
 import Scripts.Service.polygon as polygon_service
 from shapely.geometry import Point
 from shapely.geometry import Polygon as ShapelyPoly
@@ -42,17 +45,35 @@ def get_images(polygon_name):
     :return: imgage_name list of images inside the polygon
     first getting the polygon by the polygon_name (index)
     """
+    matplotlib.interactive(True)
     images = []
     polygon = polygon_service.get_polygon_by_name(polygon_name)
     poly = ShapelyPoly(polygon.coordinates[0])
+    print(type(np.array(image_data['longitude'])))
+    x,y = zip(*polygon.coordinates[0])
+
+    plt.figure()
+    plt.scatter(x,y)
+    # plt.axis((-21.98,-21.90),(-48.540,-48.5))
+    plt.xlim([-48.540,-48.5])
+    plt.ylim([-21.98,-21.90])
+
+
+    # plt.figure()
+    plt.scatter(image_data['longitude'],image_data['latitude'], c='red')
+    plt.savefig('plot')
+
+    # polygon_coords = [(-60, -25), (-60, 0), (60, 0), (60, -25)]
+    # poly = ShapelyPoly(polygon_coords)
     for i in range(len(image_data)):
+
         image = image_data.iloc[i]
         point = Point(image['longitude'],image['latitude'])
-        # point = Point(-48.524806,-21.92413)
-        # print(point)
+        point1 = Point(-48.524806,-21.92413)
 
         if point.within(poly):
             images.append(image['ImageName'])
+
 
     return images
 
